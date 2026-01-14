@@ -128,3 +128,70 @@ app.post("/todos", (req: Request, res: Response) => {
   });
 });
 
+
+
+
+app.get("/todos/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  const todo = todos.find(t => t.id === id);
+  if (!todo) {
+    return res.status(404).json({
+      msg: "todo not found",
+      data: null
+    });
+  }
+
+  res.json(todo);
+});
+
+
+
+
+app.put("/todos/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const { name, status } = req.body as {
+    name?: string;
+    status?: string;
+  };
+
+  const todo = todos.find(t => t.id === id);
+  if (!todo) {
+    return res.status(404).json({
+      msg: "todo not found",
+      data: null
+    });
+  }
+
+  if (name) todo.name = name;
+  if (status) todo.status = status;
+  todo.updatedAt = new Date().toISOString();
+
+  res.json({
+    msg: "todo updated",
+    data: todo
+  });
+});
+
+
+
+app.delete("/todos/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const index = todos.findIndex(t => t.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      msg: "todo not found",
+      data: null
+    });
+  }
+
+  const deleted = todos.splice(index, 1)[0];
+
+  res.json({
+    msg: "todo deleted",
+    data: deleted
+  });
+});
+
+
