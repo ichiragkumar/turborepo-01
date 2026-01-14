@@ -78,3 +78,53 @@ app.get("/todos", (req : Request, res : Response) =>{
 
 })
 
+
+app.post("/todos", (req: Request, res: Response) => {
+  const { id, name, status, createdAt, createdBy, updatedAt } = req.body;
+  if (
+    id === undefined ||
+    name === undefined ||
+    status === undefined ||
+    createdAt === undefined ||
+    createdBy === undefined ||
+    updatedAt === undefined
+  ) {
+    return res.status(400).json({
+      msg: "all fields are required",
+      data: null
+    });
+  }
+
+  if (
+    typeof id !== "number" ||
+    typeof name !== "string" ||
+    typeof status !== "string" ||
+    typeof createdAt !== "string" ||
+    typeof createdBy !== "string" ||
+    typeof updatedAt !== "string"
+  ) {
+    return res.status(400).json({
+      msg: "invalid field types",
+      data: null
+    });
+  }
+
+
+  const exists = todos.some((t) => t.id === id);
+  if (exists) {
+    return res.status(409).json({
+      msg: `todo with id ${id} already exists`,
+      data: null
+    });
+  }
+
+
+  const newTodo: Todo = { id, name, status, createdAt, createdBy, updatedAt };
+  todos.push(newTodo);
+
+  return res.status(201).json({
+    msg: "new todo added",
+    data: newTodo
+  });
+});
+
