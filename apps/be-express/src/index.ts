@@ -59,15 +59,14 @@ const todos : Todo[] = [
 app.get("/todos", (req : Request, res : Response) =>{
 
 
-    const getTodos = todos.map((todo =>{
-        id : todo.id;
-        name : todo.name;
-        status : todo.status;
-        createdAt : todo.createdAt;
-        createdBy  : todo.createdBy;
-        updatedat : todo.updatedAt;
-
-    }))
+   const getTodos = todos.map(todo => ({
+  id: todo.id,
+  name: todo.name,
+  status: todo.status,
+  createdAt: todo.createdAt,
+  createdBy: todo.createdBy,
+  updatedAt: todo.updatedAt
+}));
 
 
     return res.status(200).json({
@@ -195,3 +194,7 @@ app.delete("/todos/:id", (req: Request, res: Response) => {
 });
 
 
+
+app.listen(3003, ()=>{
+    console.log(`server is running at 3003`)
+})
