@@ -56,7 +56,7 @@ const todos : Todo[] = [
 ]
 
 
-app.get("/todos", (req : Request, res : Response) =>{
+app.get("/api/todos", (req : Request, res : Response) =>{
 
 
    const getTodos = todos.map(todo => ({
@@ -78,7 +78,7 @@ app.get("/todos", (req : Request, res : Response) =>{
 })
 
 
-app.post("/todos", (req: Request, res: Response) => {
+app.post("/api/todos", (req: Request, res: Response) => {
   const { id, name, status, createdAt, createdBy, updatedAt } = req.body;
   if (
     id === undefined ||
@@ -130,7 +130,7 @@ app.post("/todos", (req: Request, res: Response) => {
 
 
 
-app.get("/todos/:id", (req: Request, res: Response) => {
+app.get("/api/todos/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
   const todo = todos.find(t => t.id === id);
@@ -147,7 +147,7 @@ app.get("/todos/:id", (req: Request, res: Response) => {
 
 
 
-app.put("/todos/:id", (req: Request, res: Response) => {
+app.put("/api/todos/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const { name, status } = req.body as {
     name?: string;
@@ -174,7 +174,7 @@ app.put("/todos/:id", (req: Request, res: Response) => {
 
 
 
-app.delete("/todos/:id", (req: Request, res: Response) => {
+app.delete("/api/todos/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const index = todos.findIndex(t => t.id === id);
 
